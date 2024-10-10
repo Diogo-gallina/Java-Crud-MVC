@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Listagem de Produtos</title>
+</head>
+<body>
+<div class="container" layout:fragment="conteudo">
+    <h1>Listagem de Produtos</h1>
+    <div th:if="!${#strings.isEmpty(msg)}" class="alert alert-success">
+        <span th:text="${msg}"></span>
+    </div>
+
+    <form th:action="@{/product/list}" method="get">
+        <div class="row mb-3">
+            <div class="col">
+                <input type="text" class="form-control" name="name" placeholder="Nome do Produto" th:value="${param.name}">
+            </div>
+            <div class="col">
+                <select class="form-control" name="isAvailable" th:value="${param.isAvailable}">
+                    <option value="">Disponível</option>
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="minValue" placeholder="Valor Mínimo" th:value="${param.minValue}">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="maxValue" placeholder="Valor Máximo" th:value="${param.maxValue}">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+            <th>Quantidade em estoque</th>
+            <th>Disponível</th>
+            <th>Categoria</th>
+            <th></th>
+        </tr>
+        <tr th:each="product:${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${#numbers.formatDecimal(product.value, 1, 2)}"></td>
+            <td th:text="${product.stockQuantity}"></td>
+            <td th:text="${product.isAvailable?'Sim':'Não'}"></td>
+            <td th:text="${product.category}"></td>
+            <td>
+                <a th:href="@{/product/update/}+${product.id}" class="btn btn-sm btn-primary">Editar</a>
+                <button th:onclick="|productId.value = ${product.id}|" type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Excluir
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente excluir o produto?
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/product/delete}" method="post">
+                        <input type="hidden" id="productId" name="idProduct">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-danger">Sim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
