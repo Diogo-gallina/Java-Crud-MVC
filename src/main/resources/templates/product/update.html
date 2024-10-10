@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Produto</title>
+</head>
+<body>
+<div class="container" layout:fragment="conteudo">
+  <h1>Edição de Produto</h1>
+
+  <form th:action="@{/product/update}" method="post" th:object="${product}">
+    <input hidden="hidden" th:field="*{id}">
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      <input type="text" th:field="*{name}" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Descrição</label>
+      <textarea th:field="*{description}" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Preço</label>
+      <input type="number" class="form-control" th:field="*{value}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Quantidade em estoque</label>
+      <input class="form-control" type="number" th:field="*{stockQuantity}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Disponível</label>
+      <input type="checkbox" th:field="*{isAvailable}" >
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Categoria</label>
+      <select th:field="*{category}" class="form-control">
+        <option th:each="category :${categoryValue}" th:value="${category}" th:text="${category.label}"></option>
+      </select>
+    </div>
+    <button class="btn btn-success">Editar</button>
+  </form>
+</div>
+</body>
+</html>
