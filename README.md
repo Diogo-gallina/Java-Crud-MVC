@@ -7,3 +7,4 @@ Contributors:
 - João Dubas Leal Kleye Souza: RM 76153
 - Pedro Henrique Couto Archilha: RM 550450
 - Pedro Henrique Lourenço Rodrigues: RM 98402
+- Gabriel Melo dos Santos: RM 550202
